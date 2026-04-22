@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Suite de Negocios - Clase Práctica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #1e3c2c 0%, #2a4a35 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M20,20 L30,20 L25,28 Z M70,70 L80,70 L75,78 Z M45,45 L55,45 L50,53 Z"/></svg>') repeat;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        /* Tarjeta Viñales - Agromercado */
+        .app-card-vinales {
+            background: linear-gradient(135deg, #2d5a27 0%, #1e3a1e 100%);
+            border-radius: 24px;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .app-card-vinales:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255,215,0,0.6);
+        }
+        
+        /* Tarjeta Decoración */
+        .app-card-deco {
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dccc 100%);
+            border-radius: 24px;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(198, 156, 109, 0.3);
+        }
+        
+        .app-card-deco:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* Tarjeta Mercado */
+        .app-card-market {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            border-radius: 24px;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .app-card-market:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .card-header {
+            padding: 30px 25px 20px 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .app-icon {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .app-card-vinales .app-title {
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .app-card-deco .app-title {
+            color: #8b5a2b;
+        }
+        
+        .app-card-market .app-title {
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .app-subtitle {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .app-card-vinales .app-subtitle {
+            color: #a8e6a0;
+        }
+        
+        .app-card-deco .app-subtitle {
+            color: #a0522d;
+        }
+        
+        .app-card-market .app-subtitle {
+            color: #ffcccc;
+        }
+        
+        .card-content {
+            padding: 0 25px 20px 25px;
+        }
+        
+        .app-description {
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .app-card-vinales .app-description {
+            color: #d4ffd0;
+        }
+        
+        .app-card-deco .app-description {
+            color: #5a3a22;
+        }
+        
+        .app-card-market .app-description {
+            color: #fff0f0;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-tag {
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .app-card-vinales .feature-tag {
+            background: rgba(255,215,0,0.2);
+            color: #ffd700;
+        }
+        
+        .app-card-deco .feature-tag {
+            background: rgba(139,90,43,0.15);
+            color: #8b5a2b;
+        }
+        
+        .app-card-market .feature-tag {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .install-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .app-card-vinales .install-badge {
+            background: #ffd700;
+            color: #1e3a1e;
+        }
+        
+        .app-card-deco .install-badge {
+            background: #8b5a2b;
+            color: white;
+        }
+        
+        .app-card-market .install-badge {
+            background: white;
+            color: #c0392b;
+        }
+        
+        .install-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        .card-footer {
+            background: rgba(0,0,0,0.1);
+            padding: 12px 25px;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        
+        .app-card-vinales .card-footer {
+            background: rgba(0,0,0,0.2);
+            color: #a8e6a0;
+        }
+        
+        .app-card-deco .card-footer {
+            background: rgba(0,0,0,0.05);
+            color: #8b5a2b;
+        }
+        
+        .app-card-market .card-footer {
+            background: rgba(0,0,0,0.2);
+            color: #ffcccc;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .apps-grid { 
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .app-title { font-size: 1.5rem; }
+        }
+        
+        /* Modal de instrucciones */
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid #ffd700;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .close-modal {
+            float: right;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Suite de Negocios Digitales</h1>
+        <div class="subtitle">
+            Soluciones PWA para emprendimientos • Accede desde cualquier dispositivo
+        </div>
+        
+        <div class="apps-grid">
+            
+            <!-- PWA 1: POS Agromercado Viñales -->
+            <a href="/vinales/" class="app-card-vinales">
+                <div class="card-header">
+                    <div class="app-icon">🌾🥑</div>
+                    <div class="app-title">Viñales POS</div>
+                    <div class="app-subtitle">Agromercado & Campesino</div>
+                </div>
+                <div class="card-content">
+                    <div class="app-description">
+                        Sistema de punto de venta especializado para el agromercado de Viñales. 
+                        Gestiona productos frescos, control de inventario y ventas por peso.
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">🌽 Frutas & Verduras</span>
+                        <span class="feature-tag">⚖️ Ventas por peso</span>
+                        <span class="feature-tag">📊 Inventario real</span>
+                        <span class="feature-tag">💳 Múltiples pagos</span>
+                        <span class="feature-tag">📈 Reportes diarios</span>
+                    </div>
+                    <div class="install-badge">
+                        📲 Instalar PWA | POS Agromercado
+                    </div>
+                </div>
+                <div class="card-footer">
+                    🕒 Sincronización offline • Datos locales seguros
+                </div>
+            </a>
+            
+            <!-- PWA 2: Agencia de Decoración de Interiores -->
+            <a href="/decoracion/" class="app-card-deco">
+                <div class="card-header">
+                    <div class="app-icon">🪑✨</div>
+                    <div class="app-title">Espacios&Estilo</div>
+                    <div class="app-subtitle">Decoración de Interiores</div>
+                </div>
+                <div class="card-content">
+                    <div class="app-description">
+                        Catálogo interactivo y configurador de espacios para tu agencia de decoración. 
+                        Visualiza proyectos, cotiza y gestiona diseños personalizados.
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">🏠 Visualización 3D</span>
+                        <span class="feature-tag">🎨 Paletas de color</span>
+                        <span class="feature-tag">📐 Calculadora de materiales</span>
+                        <span class="feature-tag">📸 Moodboards</span>
+                        <span class="feature-tag">💼 Portafolio digital</span>
+                    </div>
+                    <div class="install-badge">
+                        📲 Instalar PWA | Decoración
+                    </div>
+                </div>
+                <div class="card-footer">
+                    🎯 Cotizaciones en tiempo real • Galería profesional
+                </div>
+            </a>
+            
+            <!-- PWA 3: Mercado General -->
+            <a href="/mercado/" class="app-card-market">
+                <div class="card-header">
+                    <div class="app-icon">🛒📦</div>
+                    <div class="app-title">MarketHub</div>
+                    <div class="app-subtitle">Mercado & Abarrotes</div>
+                </div>
+                <div class="card-content">
+                    <div class="app-description">
+                        Sistema completo para mercado de abarrotes y productos envasados. 
+                        Control de stock, gestión de proveedores y ventas rápidas.
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">📦 Gestión de stock</span>
+                        <span class="feature-tag">🔍 Código de barras</span>
+                        <span class="feature-tag">🏷️ Ofertas promocionales</span>
+                        <span class="feature-tag">👥 Clientes frecuentes</span>
+                        <span class="feature-tag">📅 Caducidades</span>
+                    </div>
+                    <div class="install-badge">
+                        📲 Instalar PWA | Mercado
+                    </div>
+                </div>
+                <div class="card-footer">
+                    🚀 Escáner integrado • Control de lotes
+                </div>
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; color: rgba(255,255,255,0.8); font-size: 0.9rem; padding: 20px;">
+            💡 <strong>Para estudiantes:</strong> Cada PWA es completamente funcional offline. En Android/iOS usa 
+            "Agregar a pantalla de inicio" para instalarlas como apps nativas.
+        </div>
+    </div>
+    
+    <div id="instructionModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">✕</span>
+        <strong>📱 Instalación rápida</strong><br>
+        Android: ⋮ → "Agregar a pantalla de inicio"<br>
+        iOS: 📤 → "Agregar a pantalla de inicio"
+    </div>
+    
+    <script>
+        // Detectar si es dispositivo móvil y mostrar modal
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Mostrar modal si es móvil y no se ha visto antes
+        if (isMobile() && !localStorage.getItem('modalShown')) {
+            setTimeout(() => {
+                document.getElementById('instructionModal').style.display = 'block';
+                localStorage.setItem('modalShown', 'true');
+            }, 1500);
+        }
+        
+        function closeModal() {
+            document.getElementById('instructionModal').style.display = 'none';
+        }
+        
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('instructionModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Agregar efecto de vibración sutil en hover para móviles (opcional)
+        if ('vibrate' in navigator && isMobile()) {
+            const cards = document.querySelectorAll('.app-card-vinales, .app-card-deco, .app-card-market');
+            cards.forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    navigator.vibrate(50);
+                });
+            });
+        }
+        
+        console.log('🚀 Portal de PWA listo - Clase práctica de aplicaciones web progresivas');
+    </script>
+</body>
+</html>
